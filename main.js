@@ -5,8 +5,9 @@ const dashboard = document.getElementById('dashboard');
 const queueList = document.getElementById('queueList');
 const logoutBtn = document.getElementById('logoutBtn');
 
+// Auth state
 auth.onAuthStateChanged(user => {
-  if (user && user.email === 'projectwhoo@gmail.com') {
+  if(user && user.email === 'projectwhoo@gmail.com') {
     dashboard.style.display = 'block';
     loginForm.parentElement.style.display = 'none';
     loadQueue();
@@ -16,6 +17,7 @@ auth.onAuthStateChanged(user => {
   }
 });
 
+// Login
 loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const email = document.getElementById('email').value;
@@ -23,37 +25,34 @@ loginForm.addEventListener('submit', async (e) => {
   try {
     await auth.signInWithEmailAndPassword(email, password);
   } catch(err) {
-    alert('Login failed: ' + err.message);
-    console.error(err);
+    alert('Login failed: '+err.message);
   }
 });
 
-logoutBtn.addEventListener('click', () => {
-  auth.signOut();
-});
+// Logout
+logoutBtn.addEventListener('click', () => auth.signOut());
 
-async function loadQueue() {
-  queueList.innerHTML = '';
-  try {
-    const snapshot = await db.collection('queue')
-      .where('createdAt', '!=', null)
-      .orderBy('createdAt')
-      .get();
-
-    if (snapshot.empty) {
-      queueList.innerHTML = '<li>No clients in queue</li>';
-      return;
-    }
-
-    snapshot.forEach(doc => {
-      const d = doc.data();
-      const li = document.createElement('li');
-      li.textContent = '${d.name} - ${d.service} - ${d.status};
-      queueList.appendChild(li);
+// Load queue
+function loadQueue() {
+  db.collection('queue')
+    .orderBy('createdAt')
+    .onSnapshot(snapshot => {
+      queueList.innerHTML = '';
+      if(snapshot.empty) {
+        queueList.innerHTML = '<li>No clients in queue</li>';
+        return;
+      }
+      snapshot.forEach(doc => {
+        const d = doc.data();
+        const li = document.createElement('li');
+        li.textContent = `${d.name} - ${d.service} - ${d.status}`;
+        // Optional: mark complete
+        const btn = document.createElement('button');
+        btn.textContent = 'Complete';
+        btn.style.marginLeft = '10px';
+        btn.onclick = () => db.collection('queue').doc(doc.id).update({status:'completed'});
+        li.appendChild(btn);
+        queueList.appendChild(li);
+      });
     });
-
-  } catch(err) {
-    console.error('Error loading queue:', err);
-    queueList.innerHTML = '<li>Error loading queue</li>';
-  }
 }
