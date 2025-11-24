@@ -1,41 +1,60 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Salon Queue — Home</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>GlowSalon Booking</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Firebase scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="firebase.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Glow Salon — Queue & Booking</h1>
-  </header>
+  <h1>GlowSalon Booking</h1>
 
-  <main class="container">
-    <section class="card">
-      <h2>Join the Queue</h2>
-      <form id="joinForm">
-        <label>Name<input id="name" required /></label>
-        <label>Phone<input id="phone" required /></label>
-        <label>Service
-          <select id="service"></select>
-        </label>
-        <button type="submit">Join Queue</button>
-      </form>
-    </section>
+  <label for="serviceSelect">Choose a service:</label>
+  <select id="serviceSelect"></select><br><br>
+  <input type="text" id="nameInput" placeholder="Your Name" required><br><br>
+  <input type="text" id="phoneInput" placeholder="Phone Number" required><br><br>
+  <button id="joinQueueBtn">Join Queue</button>
 
-    <section class="card">
-      <h2>Already joined?</h2>
-      <button id="viewQueue">View My Queue Status</button>
-    </section>
+  <script>
+    const SERVICES = [
+      {id:'haircut', name:'Haircut', duration:20},
+      {id:'braids', name:'Braids', duration:180},
+      {id:'manicure', name:'Manicure', duration:45},
+      {id:'beard', name:'Beard Trim', duration:15},
+    ];
 
-    <section class="card">
-      <h2>Salon Admin</h2>
-      <p><a href="admin.html">Open admin dashboard</a></p>
-    </section>
-  </main>
+    const serviceSelect = document.getElementById('serviceSelect');
+    SERVICES.forEach(s => {
+      const option = document.createElement('option');
+      option.value = s.id;
+      option.textContent = s.name;
+      serviceSelect.appendChild(option);
+    });
 
-  <script src="firebase.js"></script>
-  <script src="main.js"></script>
+    document.getElementById('joinQueueBtn').addEventListener('click', async () => {
+      const name = document.getElementById('nameInput').value;
+      const phone = document.getElementById('phoneInput').value;
+      const serviceId = serviceSelect.value;
+      const serviceName = SERVICES.find(s => s.id === serviceId).name;
+
+      if(!name || !phone) return alert('Enter name and phone');
+
+      await db.collection('queue').add({
+        name,
+        phone,
+        service: serviceName,
+        status: 'waiting',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      alert('You have joined the queue!');
+      document.getElementById('nameInput').value = '';
+      document.getElementById('phoneInput').value = '';
+    });
+  </script>
 </body>
 </html>
