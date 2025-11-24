@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
 
-  <!-- Firebase scripts -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script src="firebase.js"></script>
@@ -19,7 +19,7 @@
     <a href="admin.html" class="admin-btn">Admin Login</a>
   </header>
 
-  <!-- Booking Card -->
+  <!-- Booking Form -->
   <div id="bookingContainer" class="card">
     <h2>Book Your Service</h2>
     <label for="serviceSelect">Choose a service:</label>
@@ -31,12 +31,13 @@
     <button id="joinQueueBtn">Join Queue</button>
   </div>
 
-  <!-- Footer with Builder Info -->
+  <!-- Footer -->
   <footer>
     <p>Built with ❤ by <strong>Kipkoech Emmanuel</strong></p>
   </footer>
 
   <script>
+    // Services list
     const SERVICES = [
       {id:'haircut', name:'Haircut', duration:20},
       {id:'braids', name:'Braids', duration:180},
@@ -52,6 +53,7 @@
       serviceSelect.appendChild(option);
     });
 
+    // Booking function
     document.getElementById('joinQueueBtn').addEventListener('click', async () => {
       const name = document.getElementById('nameInput').value.trim();
       const phone = document.getElementById('phoneInput').value.trim();
@@ -61,6 +63,7 @@
       if(!name || !phone) return alert('Enter name and phone number');
 
       try {
+        // Add to queue
         const docRef = await db.collection('queue').add({
           name,
           phone,
@@ -69,6 +72,7 @@
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
+        // Get position in queue
         const snapshot = await db.collection('queue')
           .where('status', '==', 'waiting')
           .orderBy('createdAt')
@@ -85,7 +89,7 @@
         document.getElementById('phoneInput').value = '';
       } catch(err) {
         console.error(err);
-        alert('Failed to join queue. Try again.');
+        alert('Failed to join queue. Check Firebase rules and internet connection.');
       }
     });
   </script>
