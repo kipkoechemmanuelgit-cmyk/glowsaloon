@@ -1,25 +1,30 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Salon Admin Dashboard</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>GlowSalon Admin Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <h1>Glow Salon — Admin</h1>
-  </header>
+  <h1>GlowSalon Admin Dashboard</h1>
 
-  <main class="container">
-    <section class="card">
-      <div style="display:flex;gap:8px;align-items:center;">
-        <h2>Live Queue</h2>
-        <button id="refreshBtn">Refresh</button>
-      </div>
-      <div id="queueList">Loading queue…</div>
-    </section>
-  </main>
+  <div id="loginContainer">
+    <form id="adminLogin">
+      <input id="email" type="email" placeholder="Email" required />
+      <input id="password" type="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <div id="dashboard" style="display:none;">
+    <h2>Queue</h2>
+    <ul id="queueList"></ul>
+    <button id="logoutBtn">Logout</button>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 
   <script src="firebase.js"></script>
   <script src="main.js"></script>
