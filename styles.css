@@ -1,11 +1,41 @@
-body { font-family: Arial, sans-serif; background:#fdf6f0; color:#333; padding:10px; margin:0;}
-h1,h2 { text-align:center; color:#ff6f61; }
-#loginContainer, #dashboard, #bookingContainer {
-  max-width:400px; margin:20px auto; padding:20px;
-  background:#fff5f2; border-radius:12px;
-  box-shadow:0 4px 8px rgba(0,0,0,0.1);
+/* Reset & base */
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Segoe UI', sans-serif; background:linear-gradient(135deg,#fff5f2,#ffe8e2); color:#333; line-height:1.5; }
+
+/* Header */
+header { text-align:center; padding:20px; background:#ff6f61; color:white; border-bottom:4px solid #e85c50; }
+header h1 { font-size:2em; margin-bottom:5px; }
+header .tagline { font-style:italic; font-size:1em; margin-bottom:10px; }
+header .admin-btn { display:inline-block; padding:8px 15px; background:white; color:#ff6f61; font-weight:bold; border-radius:6px; text-decoration:none; transition:0.3s; }
+header .admin-btn:hover { background:#ffe8e2; }
+
+/* Booking Card */
+#bookingContainer.card {
+  max-width:400px; margin:20px auto; padding:25px; background:white;
+  border-radius:15px; box-shadow:0 8px 20px rgba(0,0,0,0.1); text-align:center;
 }
-input, select { width:100%; padding:12px; margin:8px 0; border-radius:6px; border:1px solid #ccc; font-size:16px;}
-button { width:100%; padding:12px; background:#ff6f61; color:white; border:none; border-radius:6px; cursor:pointer; font-size:16px;}
+#bookingContainer.card h2 { margin-bottom:15px; color:#ff6f61; }
+
+/* Inputs & Select */
+input, select {
+  width:100%; padding:12px; margin:8px 0; border-radius:8px; border:1px solid #ccc; font-size:16px;
+}
+select { background:white; }
+
+/* Buttons */
+button {
+  width:100%; padding:14px; margin-top:10px; background:#ff6f61; color:white; border:none; border-radius:8px;
+  font-size:16px; font-weight:bold; cursor:pointer; transition:0.3s;
+}
 button:hover { background:#e85c50; }
-#queueList li { margin:10px 0; padding:10px; background:#ffe8e2; border-radius:8px; font-size:16px;}
+
+/* Footer */
+footer { text-align:center; padding:15px; margin-top:20px; color:#333; font-size:14px; font-style:italic; }
+footer strong { color:#ff6f61; }
+
+/* Mobile tweaks */
+@media (max-width:450px) {
+  header h1 { font-size:1.5em; }
+  #bookingContainer.card { padding:20px; }
+  button, input, select { font-size:14px; padding:10px; }
+}
