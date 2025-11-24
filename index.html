@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>GlowSalon Booking</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
 
   <!-- Firebase scripts -->
@@ -11,15 +12,35 @@
   <script src="firebase.js"></script>
 </head>
 <body>
-  <h1>GlowSalon Booking</h1>
+  <!-- Admin Login Button -->
+  <div style="text-align:center; margin:10px;">
+    <a href="admin.html" style="
+      display:inline-block;
+      padding:10px 20px;
+      background:#ff6f61;
+      color:white;
+      border-radius:6px;
+      text-decoration:none;
+      font-weight:bold;
+      font-size:16px;
+    ">Admin Login</a>
+  </div>
 
-  <label for="serviceSelect">Choose a service:</label>
-  <select id="serviceSelect"></select><br><br>
-  <input type="text" id="nameInput" placeholder="Your Name" required><br><br>
-  <input type="text" id="phoneInput" placeholder="Phone Number" required><br><br>
-  <button id="joinQueueBtn">Join Queue</button>
+  <h1 style="text-align:center; margin-top:20px;">GlowSalon Booking</h1>
+
+  <!-- Booking Form -->
+  <div id="bookingContainer" style="max-width:400px; margin:20px auto; padding:20px; background:#fff5f2; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
+    <label for="serviceSelect">Choose a service:</label>
+    <select id="serviceSelect" style="width:100%; padding:12px; margin:8px 0; border-radius:6px; border:1px solid #ccc;"></select>
+
+    <input type="text" id="nameInput" placeholder="Your Name" style="width:100%; padding:12px; margin:8px 0; border-radius:6px; border:1px solid #ccc;">
+    <input type="text" id="phoneInput" placeholder="Phone Number" style="width:100%; padding:12px; margin:8px 0; border-radius:6px; border:1px solid #ccc;">
+
+    <button id="joinQueueBtn" style="width:100%; padding:12px; margin-top:10px; background:#ff6f61; color:white; border:none; border-radius:6px; cursor:pointer; font-size:16px;">Join Queue</button>
+  </div>
 
   <script>
+    // Predefined services
     const SERVICES = [
       {id:'haircut', name:'Haircut', duration:20},
       {id:'braids', name:'Braids', duration:180},
@@ -35,25 +56,31 @@
       serviceSelect.appendChild(option);
     });
 
+    // Booking action
     document.getElementById('joinQueueBtn').addEventListener('click', async () => {
-      const name = document.getElementById('nameInput').value;
-      const phone = document.getElementById('phoneInput').value;
+      const name = document.getElementById('nameInput').value.trim();
+      const phone = document.getElementById('phoneInput').value.trim();
       const serviceId = serviceSelect.value;
       const serviceName = SERVICES.find(s => s.id === serviceId).name;
 
-      if(!name || !phone) return alert('Enter name and phone');
+      if(!name || !phone) return alert('Please enter your name and phone number');
 
-      await db.collection('queue').add({
-        name,
-        phone,
-        service: serviceName,
-        status: 'waiting',
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
+      try {
+        await db.collection('queue').add({
+          name,
+          phone,
+          service: serviceName,
+          status: 'waiting',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
 
-      alert('You have joined the queue!');
-      document.getElementById('nameInput').value = '';
-      document.getElementById('phoneInput').value = '';
+        alert('You have successfully joined the queue!');
+        document.getElementById('nameInput').value = '';
+        document.getElementById('phoneInput').value = '';
+      } catch(err) {
+        console.error(err);
+        alert('Failed to join queue. Try again.');
+      }
     });
   </script>
 </body>
