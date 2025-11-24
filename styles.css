@@ -1,7 +1,11 @@
-body { font-family: Arial; background:#fdf6f0; color:#333; padding:20px; }
+body { font-family: Arial, sans-serif; background:#fdf6f0; color:#333; padding:10px; margin:0;}
 h1,h2 { text-align:center; color:#ff6f61; }
-#loginContainer, #dashboard { max-width:500px; margin:20px auto; padding:20px; background:#fff5f2; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1);}
-input, select { width:100%; padding:10px; margin:5px 0; border-radius:6px; border:1px solid #ccc;}
-button { padding:10px; background:#ff6f61; color:white; border:none; border-radius:6px; cursor:pointer;}
+#loginContainer, #dashboard, #bookingContainer {
+  max-width:400px; margin:20px auto; padding:20px;
+  background:#fff5f2; border-radius:12px;
+  box-shadow:0 4px 8px rgba(0,0,0,0.1);
+}
+input, select { width:100%; padding:12px; margin:8px 0; border-radius:6px; border:1px solid #ccc; font-size:16px;}
+button { width:100%; padding:12px; background:#ff6f61; color:white; border:none; border-radius:6px; cursor:pointer; font-size:16px;}
 button:hover { background:#e85c50; }
-#queueList li { margin:8px 0; padding:10px; background:#ffe8e2; border-radius:8px;}
+#queueList li { margin:10px 0; padding:10px; background:#ffe8e2; border-radius:8px; font-size:16px;}
