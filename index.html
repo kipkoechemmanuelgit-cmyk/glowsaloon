@@ -12,24 +12,16 @@
   <script src="firebase.js"></script>
 </head>
 <body>
-  <!-- Admin Login Button -->
-  <div style="text-align:center; margin:10px;">
-    <a href="admin.html" style="
-      display:inline-block;
-      padding:10px 20px;
-      background:#ff6f61;
-      color:white;
-      border-radius:6px;
-      text-decoration:none;
-      font-weight:bold;
-      font-size:16px;
-    ">Admin Login</a>
-  </div>
+  <!-- Header -->
+  <header>
+    <h1>GlowSalon</h1>
+    <p class="tagline">Your style, your shine ✨</p>
+    <a href="admin.html" class="admin-btn">Admin Login</a>
+  </header>
 
-  <h1 style="text-align:center; margin-top:20px;">GlowSalon Booking</h1>
-
-  <!-- Booking Form -->
-  <div id="bookingContainer">
+  <!-- Booking Card -->
+  <div id="bookingContainer" class="card">
+    <h2>Book Your Service</h2>
     <label for="serviceSelect">Choose a service:</label>
     <select id="serviceSelect"></select>
 
@@ -38,6 +30,11 @@
 
     <button id="joinQueueBtn">Join Queue</button>
   </div>
+
+  <!-- Footer with Builder Info -->
+  <footer>
+    <p>Built with ❤ by <strong>Kipkoech Emmanuel</strong></p>
+  </footer>
 
   <script>
     const SERVICES = [
@@ -64,7 +61,6 @@
       if(!name || !phone) return alert('Enter name and phone number');
 
       try {
-        // Add client to queue
         const docRef = await db.collection('queue').add({
           name,
           phone,
@@ -73,7 +69,6 @@
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        // Calculate queue position
         const snapshot = await db.collection('queue')
           .where('status', '==', 'waiting')
           .orderBy('createdAt')
