@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Salon Queue — Home</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Glow Salon — Queue & Booking</h1>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Join the Queue</h2>
+      <form id="joinForm">
+        <label>Name<input id="name" required /></label>
+        <label>Phone<input id="phone" required /></label>
+        <label>Service
+          <select id="service"></select>
+        </label>
+        <button type="submit">Join Queue</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Already joined?</h2>
+      <button id="viewQueue">View My Queue Status</button>
+    </section>
+
+    <section class="card">
+      <h2>Salon Admin</h2>
+      <p><a href="admin.html">Open admin dashboard</a></p>
+    </section>
+  </main>
+
+  <script src="firebase.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
